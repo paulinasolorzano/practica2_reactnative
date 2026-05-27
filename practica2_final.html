@@ -1,0 +1,316 @@
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #fff; color: #1a1a1a; font-size: 15px; }
+
+  .cover { background: linear-gradient(135deg, #0d2c6e 0%, #1565c0 60%, #1e88e5 100%); color: #fff; padding: 60px 50px 40px; min-height: 220px; position: relative; }
+  .cover-logo { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 30px; }
+  .cover h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .cover h2 { font-size: 16px; font-weight: 400; color: rgba(255,255,255,0.8); margin-bottom: 30px; }
+  .cover-meta { display: flex; gap: 40px; margin-top: 20px; }
+  .cover-meta div { font-size: 12px; }
+  .cover-meta label { color: rgba(255,255,255,0.55); display: block; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; font-size: 10px; }
+  .cover-bar { height: 5px; background: linear-gradient(90deg, #42a5f5, #80d8ff); margin-top: 30px; border-radius: 3px; }
+
+  .page { padding: 36px 50px; }
+
+  .section-title { font-size: 13px; font-weight: 700; color: #1565c0; text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 2px solid #1565c0; padding-bottom: 5px; margin: 28px 0 14px; }
+
+  p { font-size: 15px; line-height: 1.7; color: #333; margin-bottom: 8px; }
+
+  .warn { background: #fff8e1; border-left: 4px solid #f9a825; padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 12px; margin: 10px 0 14px; color: #5d4037; }
+
+  pre { background: #f5f7fa; color: #1a1a1a; border: 1px solid #dce3f0; border-left: 4px solid #1565c0; border-radius: 0 8px 8px 0; padding: 14px 18px; font-size: 13px; line-height: 1.8; overflow-x: auto; margin: 8px 0 16px; white-space: pre-wrap; font-family: 'Courier New', monospace; }
+  .kw { color: #7c3aed; font-weight: 700; }
+  .fn { color: #1565c0; }
+  .str { color: #b91c1c; }
+  .cm { color: #6b7280; font-style: italic; }
+  .tag { color: #0369a1; }
+  .prop { color: #0f766e; }
+
+  .file-tag { display: inline-block; background: #e3f2fd; color: #0d47a1; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 6px; }
+  .file-tag.new { background: #e8f5e9; color: #1b5e20; }
+
+  /* ── Estructura mejorada ── */
+  .tree { background: #f5f7fa; border: 1px solid #dce3f0; border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; }
+  .tree-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; border-bottom: 1px dashed #e0e7f0; }
+  .tree-row:last-child { border-bottom: none; }
+  .tree-indent { color: #b0bec5; font-family: 'Courier New', monospace; font-size: 13px; user-select: none; }
+  .tree-file { font-family: 'Courier New', monospace; font-size: 13px; font-weight: 700; color: #0d2c6e; }
+  .tree-folder { font-family: 'Courier New', monospace; font-size: 13px; font-weight: 700; color: #1565c0; }
+  .badge-status { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+  .badge-updated { background: #e3f2fd; color: #0d47a1; }
+  .badge-new     { background: #e8f5e9; color: #1b5e20; }
+  .badge-unchanged { background: #f5f5f5; color: #757575; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 10px 0 16px; }
+  th { background: #1565c0; color: #fff; padding: 9px 14px; text-align: left; font-weight: 600; }
+  td { padding: 8px 14px; border-bottom: 1px solid #e8edf5; font-size: 14px; }
+  tr:nth-child(even) td { background: #f5f7fc; }
+
+  .result-list { list-style: none; padding: 0; }
+  .result-list li { padding: 7px 0 7px 22px; position: relative; font-size: 13px; color: #333; border-bottom: 1px dashed #e0e7f0; }
+  .result-list li::before { content: '✓'; position: absolute; left: 0; color: #1565c0; font-weight: 700; }
+
+  .qa-block { margin-bottom: 18px; }
+  .qa-q { background: #e3f2fd; border-left: 4px solid #1565c0; padding: 10px 14px; border-radius: 0 8px 8px 0; font-weight: 600; color: #0d2c6e; font-size: 15px; margin-bottom: 0; }
+  .qa-a-blank { background: #f9fbff; border-left: 4px solid #90caf9; border-radius: 0 8px 8px 0; }
+
+  textarea { width: 100%; border: none; background: transparent; font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; color: #1a1a1a; resize: none; outline: none; padding: 10px 14px; line-height: 1.7; min-height: 80px; }
+  textarea::placeholder { color: #aab4c8; font-style: italic; }
+
+  .input-name { border: none; border-bottom: 1.5px solid #90caf9; font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; color: #fff; background: transparent; outline: none; width: 220px; padding: 2px 4px; }
+  .input-name::placeholder { color: rgba(255,255,255,0.5); }
+  .input-date { border: none; border-bottom: 1.5px solid #90caf9; font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; color: #fff; background: transparent; outline: none; width: 120px; padding: 2px 4px; }
+  .input-date::placeholder { color: rgba(255,255,255,0.5); }
+
+  .conclusion-box { border: 1.5px solid #1565c0; border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
+  .conclusion-box h4 { color: #1565c0; font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+
+  .footer { background: #0d2c6e; color: rgba(255,255,255,0.6); font-size: 11px; padding: 14px 50px; display: flex; justify-content: space-between; margin-top: 40px; }
+
+  @media print {
+    body { font-size: 12px; }
+    .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    pre { -webkit-print-color-adjust: exact; print-color-adjust: exact; break-inside: avoid; }
+    th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .qa-q { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .badge-updated, .badge-new, .badge-unchanged { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    textarea { min-height: unset; }
+  }
+</style>
+
+<div class="cover">
+  <div class="cover-logo">Ingeniería en Desarrollo y Gestión de Software · Desarrollo de Aplicaciones para Dispositivos Inteligentes</div>
+  <h1>Práctica 2</h1>
+  <h2>Navegación entre pantallas · React Navigation Stack</h2>
+  <div class="cover-meta">
+    <div><label>Proyecto</label>Explore Mich — Catálogo turístico de Michoacán</div>
+    <div><label>Alumno(a)</label><input class="input-name" type="text" placeholder="Escribe tu nombre aquí" /></div>
+    <div><label>Fecha</label><input class="input-date" type="text" placeholder="dd/mm/aaaa" /></div>
+  </div>
+  <div class="cover-bar"></div>
+</div>
+
+<div class="page">
+
+  <div class="section-title">🎯 Objetivo</div>
+  <p>Implementar navegación entre la pantalla de catálogo y una pantalla de detalle utilizando React Navigation con Stack Navigator. Al presionar el botón "Ver más" en cada tarjeta, el usuario navega a una nueva pantalla con información del lugar seleccionado.</p>
+
+  <div class="section-title">📦 Instalación de dependencias</div>
+  <div class="warn">⚠️ Usar siempre <code>--legacy-peer-deps</code> debido a conflictos de versiones con <code>@rneui/base@5.0.0</code></div>
+  <pre><span class="fn">npm</span> install react-native-screens react-native-safe-area-context @react-navigation/native @react-navigation/native-stack <span class="prop">--legacy-peer-deps</span></pre>
+
+  <div class="section-title">🗂️ Estructura del proyecto</div>
+  <p>El proyecto está organizado en carpetas por responsabilidad. Cada archivo tiene un rol específico:</p>
+
+  <div class="tree">
+    <!-- Raíz -->
+    <div class="tree-row">
+      <span class="tree-folder">📁 ExploreMich/</span>
+      <span style="font-size:11px;color:#999;">— carpeta raíz del proyecto</span>
+    </div>
+    <!-- index.js -->
+    <div class="tree-row">
+      <span class="tree-indent">&nbsp;&nbsp;├──</span>
+      <span class="tree-file">📄 index.js</span>
+      <span class="badge-status badge-updated">✏️ actualizado</span>
+      <span style="font-size:11px;color:#999;">— punto de entrada, registra la app</span>
+    </div>
+    <!-- App.js -->
+    <div class="tree-row">
+      <span class="tree-indent">&nbsp;&nbsp;├──</span>
+      <span class="tree-file">📄 App.js</span>
+      <span class="badge-status badge-updated">✏️ actualizado</span>
+      <span style="font-size:11px;color:#999;">— configura la navegación principal</span>
+    </div>
+    <!-- carpeta data -->
+    <div class="tree-row">
+      <span class="tree-indent">&nbsp;&nbsp;├──</span>
+      <span class="tree-folder">📁 data/</span>
+      <span style="font-size:11px;color:#999;">— datos de la aplicación</span>
+    </div>
+    <!-- places.js -->
+    <div class="tree-row">
+      <span class="tree-indent">&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└──</span>
+      <span class="tree-file">📄 places.js</span>
+      <span class="badge-status badge-unchanged">sin cambios</span>
+      <span style="font-size:11px;color:#999;">— arreglo de lugares turísticos</span>
+    </div>
+    <!-- carpeta screens -->
+    <div class="tree-row">
+      <span class="tree-indent">&nbsp;&nbsp;├──</span>
+      <span class="tree-folder">📁 screens/</span>
+      <span style="font-size:11px;color:#999;">— pantallas de la app</span>
+    </div>
+    <!-- CatalogScreen -->
+    <div class="tree-row">
+      <span class="tree-indent">&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├──</span>
+      <span class="tree-file">📄 CatalogScreen.js</span>
+      <span class="badge-status badge-unchanged">sin cambios</span>
+      <span style="font-size:11px;color:#999;">— pantalla principal con la lista</span>
+    </div>
+    <!-- DetailScreen -->
+    <div class="tree-row">
+      <span class="tree-indent">&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└──</span>
+      <span class="tree-file">📄 DetailScreen.js</span>
+      <span class="badge-status badge-new">🆕 nuevo</span>
+      <span style="font-size:11px;color:#999;">— pantalla de detalle de cada lugar</span>
+    </div>
+    <!-- carpeta components -->
+    <div class="tree-row">
+      <span class="tree-indent">&nbsp;&nbsp;└──</span>
+      <span class="tree-folder">📁 components/</span>
+      <span style="font-size:11px;color:#999;">— componentes reutilizables</span>
+    </div>
+    <!-- PlaceCard -->
+    <div class="tree-row">
+      <span class="tree-indent">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└──</span>
+      <span class="tree-file">📄 PlaceCard.js</span>
+      <span class="badge-status badge-updated">✏️ actualizado</span>
+      <span style="font-size:11px;color:#999;">— tarjeta con botón "Ver más"</span>
+    </div>
+  </div>
+
+  <div class="section-title">📝 Archivos modificados</div>
+
+  <span class="file-tag">index.js — actualizado</span>
+  <p>Se agregó <code>enableScreens()</code> para compatibilidad con react-native-screens:</p>
+  <pre><span class="kw">import</span> { <span class="fn">enableScreens</span> } <span class="kw">from</span> <span class="str">'react-native-screens'</span>;
+<span class="fn">enableScreens</span>();
+
+<span class="kw">import</span> { <span class="fn">registerRootComponent</span> } <span class="kw">from</span> <span class="str">'expo'</span>;
+<span class="kw">import</span> App <span class="kw">from</span> <span class="str">'./App'</span>;
+
+<span class="fn">registerRootComponent</span>(App);</pre>
+
+  <span class="file-tag">App.js — actualizado</span>
+  <p>Se configuró el Stack Navigator con dos pantallas registradas:</p>
+  <pre><span class="kw">import</span> React <span class="kw">from</span> <span class="str">'react'</span>;
+<span class="kw">import</span> { <span class="fn">NavigationContainer</span> } <span class="kw">from</span> <span class="str">'@react-navigation/native'</span>;
+<span class="kw">import</span> { <span class="fn">createNativeStackNavigator</span> } <span class="kw">from</span> <span class="str">'@react-navigation/native-stack'</span>;
+<span class="kw">import</span> CatalogScreen <span class="kw">from</span> <span class="str">'./screens/CatalogScreen'</span>;
+<span class="kw">import</span> DetailScreen <span class="kw">from</span> <span class="str">'./screens/DetailScreen'</span>;
+
+<span class="kw">const</span> Stack = <span class="fn">createNativeStackNavigator</span>();
+
+<span class="kw">export default function</span> <span class="fn">App</span>() {
+  <span class="kw">return</span> (
+    <span class="tag">&lt;NavigationContainer&gt;</span>
+      <span class="tag">&lt;Stack.Navigator</span>
+        <span class="prop">initialRouteName</span>=<span class="str">"Catalog"</span>
+        <span class="prop">screenOptions</span>={{
+          <span class="prop">headerStyle</span>: { <span class="prop">backgroundColor</span>: <span class="str">'#00796b'</span> },
+          <span class="prop">headerTintColor</span>: <span class="str">'#fff'</span>,
+        }}
+      <span class="tag">&gt;</span>
+        <span class="tag">&lt;Stack.Screen</span> <span class="prop">name</span>=<span class="str">"Catalog"</span> <span class="prop">component</span>={CatalogScreen} <span class="tag">/&gt;</span>
+        <span class="tag">&lt;Stack.Screen</span> <span class="prop">name</span>=<span class="str">"Detail"</span> <span class="prop">component</span>={DetailScreen} <span class="tag">/&gt;</span>
+      <span class="tag">&lt;/Stack.Navigator&gt;</span>
+    <span class="tag">&lt;/NavigationContainer&gt;</span>
+  );
+}</pre>
+
+  <span class="file-tag">components/PlaceCard.js — actualizado</span>
+  <p>Se agregó <code>useNavigation()</code> y el evento <code>onPress</code> al botón "Ver más":</p>
+  <pre><span class="kw">import</span> { <span class="fn">useNavigation</span> } <span class="kw">from</span> <span class="str">'@react-navigation/native'</span>;
+
+<span class="kw">export default function</span> <span class="fn">PlaceCard</span>({ place }) {
+  <span class="kw">const</span> navigation = <span class="fn">useNavigation</span>();
+
+  <span class="kw">return</span> (
+    <span class="tag">&lt;Card&gt;</span>
+      ...
+      <span class="tag">&lt;Button</span>
+        <span class="prop">title</span>=<span class="str">"Ver más"</span>
+        <span class="prop">icon</span>={<span class="tag">&lt;Icon</span> <span class="prop">name</span>=<span class="str">"map"</span> <span class="prop">type</span>=<span class="str">"feather"</span> <span class="prop">color</span>=<span class="str">"white"</span> <span class="prop">size</span>={18} <span class="tag">/&gt;</span>}
+        <span class="prop">buttonStyle</span>={styles.button}
+        <span class="prop">onPress</span>={() =&gt; navigation.<span class="fn">navigate</span>(<span class="str">'Detail'</span>, { place })}
+      <span class="tag">/&gt;</span>
+    <span class="tag">&lt;/Card&gt;</span>
+  );
+}</pre>
+
+  <span class="file-tag new">screens/DetailScreen.js — NUEVO</span>
+  <p>Pantalla de detalle que recibe el lugar seleccionado por <code>route.params</code>:</p>
+  <pre><span class="kw">import</span> React <span class="kw">from</span> <span class="str">'react'</span>;
+<span class="kw">import</span> { View, Text, Image, ScrollView, StyleSheet } <span class="kw">from</span> <span class="str">'react-native'</span>;
+
+<span class="kw">export default function</span> <span class="fn">DetailScreen</span>({ route }) {
+  <span class="kw">const</span> { place } = route.params;
+
+  <span class="kw">return</span> (
+    <span class="tag">&lt;ScrollView</span> <span class="prop">style</span>={styles.container}<span class="tag">&gt;</span>
+      <span class="tag">&lt;Image</span> <span class="prop">source</span>={{ uri: place.image }} <span class="prop">style</span>={styles.image} <span class="tag">/&gt;</span>
+      <span class="tag">&lt;View</span> <span class="prop">style</span>={styles.content}<span class="tag">&gt;</span>
+        <span class="tag">&lt;Text</span> <span class="prop">style</span>={styles.category}<span class="tag">&gt;</span>{place.category}<span class="tag">&lt;/Text&gt;</span>
+        <span class="tag">&lt;Text</span> <span class="prop">style</span>={styles.title}<span class="tag">&gt;</span>{place.name}<span class="tag">&lt;/Text&gt;</span>
+        <span class="tag">&lt;Text</span> <span class="prop">style</span>={styles.description}<span class="tag">&gt;</span>{place.description}<span class="tag">&lt;/Text&gt;</span>
+      <span class="tag">&lt;/View&gt;</span>
+    <span class="tag">&lt;/ScrollView&gt;</span>
+  );
+}</pre>
+
+  <div class="section-title">✅ Resultado esperado</div>
+  <ul class="result-list">
+    <li>La pantalla principal muestra el catálogo de lugares con tarjetas</li>
+    <li>Al presionar "Ver más" navega a la pantalla de detalle del lugar</li>
+    <li>La pantalla de detalle muestra imagen, categoría, nombre y descripción</li>
+    <li>El header muestra el nombre del lugar y un botón de regreso automático</li>
+  </ul>
+
+  <div class="section-title">🔑 Conceptos clave</div>
+  <table>
+    <tr><th>Concepto</th><th>Descripción</th></tr>
+    <tr><td>Stack Navigator</td><td>Navegación tipo pila — cada pantalla se apila sobre la anterior</td></tr>
+    <tr><td>NavigationContainer</td><td>Componente raíz que habilita la navegación en toda la app</td></tr>
+    <tr><td>useNavigation()</td><td>Hook para acceder al objeto de navegación desde cualquier componente</td></tr>
+    <tr><td>route.params</td><td>Objeto que contiene los datos enviados entre pantallas</td></tr>
+    <tr><td>--legacy-peer-deps</td><td>Flag de npm para resolver conflictos de versiones entre dependencias</td></tr>
+    <tr><td>npx expo start --clear</td><td>Limpia el caché de Metro Bundler al encontrar errores extraños</td></tr>
+  </table>
+
+  <div class="section-title">❓ Preguntas y respuestas</div>
+
+  <div class="qa-block">
+    <div class="qa-q">1. ¿Cuál es la diferencia entre index.js y App.js en un proyecto Expo?</div>
+    <div class="qa-a-blank"><textarea placeholder="Escribe tu respuesta aquí..."></textarea></div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q">2. ¿Qué función cumple NavigationContainer en la aplicación?</div>
+    <div class="qa-a-blank"><textarea placeholder="Escribe tu respuesta aquí..."></textarea></div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q">3. ¿Cómo se pasan datos de una pantalla a otra con React Navigation?</div>
+    <div class="qa-a-blank"><textarea placeholder="Escribe tu respuesta aquí..."></textarea></div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q">4. ¿Por qué fue necesario usar --legacy-peer-deps en este proyecto?</div>
+    <div class="qa-a-blank"><textarea placeholder="Escribe tu respuesta aquí..."></textarea></div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q">5. ¿Qué ventaja tiene usar useNavigation() en lugar de pasar navigation como prop?</div>
+    <div class="qa-a-blank"><textarea placeholder="Escribe tu respuesta aquí..."></textarea></div>
+  </div>
+
+  <div class="section-title">📝 Conclusiones</div>
+
+  <div class="conclusion-box">
+    <h4>¿Qué aprendiste en esta práctica?</h4>
+    <textarea placeholder="Escribe tu conclusión aquí..."></textarea>
+  </div>
+  <div class="conclusion-box">
+    <h4>¿Qué dificultades encontraste y cómo las resolviste?</h4>
+    <textarea placeholder="Escribe tu conclusión aquí..."></textarea>
+  </div>
+  <div class="conclusion-box">
+    <h4>¿Cómo aplicarías este conocimiento en un proyecto real?</h4>
+    <textarea placeholder="Escribe tu conclusión aquí..."></textarea>
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>Explore Mich · Práctica 2 · Desarrollo de Aplicaciones para Dispositivos Inteligentes</span>
+  <span>Ingeniería en Desarrollo y Gestión de Software</span>
+</div>
